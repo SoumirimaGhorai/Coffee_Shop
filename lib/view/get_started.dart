@@ -1,12 +1,15 @@
 import 'package:coffee_shop/core/constant/constant.dart';
-import 'package:coffee_shop/view_models/get_provider.dart';
+import 'package:coffee_shop/view/details_page.dart';
+import 'package:coffee_shop/view_models/get_provider_app_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../core/themes/app_colors.dart';
+import 'login_page.dart';
 
 class CoffeePage extends StatelessWidget {
-  const CoffeePage({super.key});
+  final bool isLoggedIn;
+  const CoffeePage({super.key,  required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -59,28 +62,32 @@ class CoffeePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Container(
+              padding: const EdgeInsets.all(10.0),
+              child:Container(
                 width: 250,
                 height: 50,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: AppColors.buttonColor), //A a = new A();
+                    color: AppColors.buttonColor),
                 child: InkWell(
-                    onTap: () {
-                      Provider.of<GetProvider>(context, listen: false)
-                          .nav(context);
-                    },
-                    child: Center(
-                        child: Text(
-                      'Get started',
-                      style: TextStyle(color: Colors.white),
-                    ))),
+                  onTap: () {
+                    if (isLoggedIn) {
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (_) =>
+                          DetailsPage()));
+                    } else {
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (_) =>
+                          LoginPage()));
+                    }
+                  },
+                child: Center(child: Text("Get Started",style: TextStyle(color: Colors.white),)),
               ),
             ),
 
-            //----------------------------------get started------------------------------------------------//
 
+            //----------------------------------get started------------------------------------------------//
+            )
           ],
         )),
       ),

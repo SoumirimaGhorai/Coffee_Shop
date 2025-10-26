@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../view_models/get_provider.dart';
+//import '../../view_models/get_provider_app_controller.dart';
 import '../themes/app_colors.dart';
 
 class ColdCoffeeInformationPage extends StatelessWidget {
@@ -136,65 +136,65 @@ class ColdCoffeeInformationPage extends StatelessWidget {
 
                           //-----------------------additional---------------------------------------------------//
 
-                          Consumer<GetProvider>(
-                            builder: (context, provider, child) {
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Transform.scale(
-                                        scale: 0.7,
-                                        child: Switch(
-                                          value: provider.isOatMilkSelected,
-                                          onChanged: provider.toggleOatMilk,
-                                          activeColor: AppColors.buttonColor,
-                                        ),
-                                      ),
-                                      Text('Oat Milk'),
-                                      SizedBox(
-                                        width: 180,
-                                      ),
-                                      Text('\u20B9200')
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Transform.scale(
-                                        scale: 0.7,
-                                        child: Switch(
-                                          value: provider.isFatMilkSelected,
-                                          onChanged: provider.toggleFatMilk,
-                                          activeColor: AppColors.buttonColor,
-                                        ),
-                                      ),
-                                      Text('Fat Milk'),
-                                      SizedBox(
-                                        width: 180,
-                                      ),
-                                      Text('\u20B9275')
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Transform.scale(
-                                        scale: 0.7,
-                                        child: Switch(
-                                          value: provider.isCreamSelected,
-                                          onChanged: provider.toggleCream,
-                                          activeColor: AppColors.buttonColor,
-                                        ),
-                                      ),
-                                      Text('Heavy Cream'),
-                                      SizedBox(
-                                        width: 145,
-                                      ),
-                                      Text('\u20B9300')
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                          // Consumer<GetProvider>(
+                          //   builder: (context, provider, child) {
+                          //     return Column(
+                          //       children: [
+                          //         Row(
+                          //           children: [
+                          //             Transform.scale(
+                          //               scale: 0.7,
+                          //               child: Switch(
+                          //                 value: provider.isOatMilkSelected,
+                          //                 onChanged: provider.toggleOatMilk,
+                          //                 activeColor: AppColors.buttonColor,
+                          //               ),
+                          //             ),
+                          //             Text('Oat Milk'),
+                          //             SizedBox(
+                          //               width: 180,
+                          //             ),
+                          //             Text('\u20B9200')
+                          //           ],
+                          //         ),
+                          //         Row(
+                          //           children: [
+                          //             Transform.scale(
+                          //               scale: 0.7,
+                          //               child: Switch(
+                          //                 value: provider.isFatMilkSelected,
+                          //                 onChanged: provider.toggleFatMilk,
+                          //                 activeColor: AppColors.buttonColor,
+                          //               ),
+                          //             ),
+                          //             Text('Fat Milk'),
+                          //             SizedBox(
+                          //               width: 180,
+                          //             ),
+                          //             Text('\u20B9275')
+                          //           ],
+                          //         ),
+                          //         Row(
+                          //           children: [
+                          //             Transform.scale(
+                          //               scale: 0.7,
+                          //               child: Switch(
+                          //                 value: provider.isCreamSelected,
+                          //                 onChanged: provider.toggleCream,
+                          //                 activeColor: AppColors.buttonColor,
+                          //               ),
+                          //             ),
+                          //             Text('Heavy Cream'),
+                          //             SizedBox(
+                          //               width: 145,
+                          //             ),
+                          //             Text('\u20B9300')
+                          //           ],
+                          //         ),
+                          //       ],
+                          //     );
+                          //   },
+                          // ),
 
                           //------------------------------switch button ,text and rate-----------------------------------------------------//
 
