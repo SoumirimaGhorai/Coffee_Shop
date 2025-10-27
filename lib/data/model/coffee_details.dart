@@ -4,8 +4,8 @@ class CoffeeDetails {
   String? coffeePrice;
   String? coffeeRating;
   String? imagePath;
-  String? isAddedToCart;
-  String? isFavourite;
+  // String? isAddedToCart;
+  // String? isFavourite;
 
   CoffeeDetails({
     this.coffeeId,
@@ -13,8 +13,8 @@ class CoffeeDetails {
     this.coffeePrice,
     this.coffeeRating,
     this.imagePath,
-    this.isAddedToCart,
-    this.isFavourite,
+    // this.isAddedToCart,
+    // this.isFavourite,
   });
 
   // Optional: Factory constructor to create from a map
@@ -25,8 +25,8 @@ class CoffeeDetails {
       coffeePrice: map['coffeePrice'] as String?,
       coffeeRating: map['coffeeRating'] as String?,
       imagePath: map['imagePath'] as String?,
-      isAddedToCart: map['isAddedToCart'] as String?,
-      isFavourite: map['isFavourite'] as String?,
+      // isAddedToCart: map['isAddedToCart'] as String?,
+      // isFavourite: map['isFavourite'] as String?,
     );
   }
 
@@ -38,8 +38,8 @@ class CoffeeDetails {
       'coffeePrice': coffeePrice,
       'coffeeRating': coffeeRating,
       'imagePath': imagePath,
-      'isAddedToCart': isAddedToCart,
-      'isFavourite': isFavourite,
+      // 'isAddedToCart': isAddedToCart,
+     // 'isFavourite': isFavourite,
     };
   }
 }

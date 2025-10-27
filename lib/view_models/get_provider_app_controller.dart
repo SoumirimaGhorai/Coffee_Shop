@@ -379,56 +379,225 @@ class GetProvider extends ChangeNotifier {
 
   //====================COFFEE'S PRICE CALCULATION ====================//
 
-  int clickTab = 0;
-  String _query = '';
-
-  final List<Map<String, String>> _coffeeList = [
-    {
-      "name": "Cappuccino",
-      "image": "lib/images/cappuccino.png",
-      "price": "175"
-    },
-    {"name": "Espresso", "image": "lib/images/espresso.png", "price": "150"},
-    {"name": "Americano", "image": "lib/images/americano.png", "price": "100"},
-    {"name": "Flat white", "image": "lib/images/flatwhite.png", "price": "110"},
-  ];
-
-  void updateQuery(String value) {
-    _query = value;
-    notifyListeners();
-  }
-
-  List<Map<String, String>> get filteredCoffees {
-    if (_query.isEmpty) return _coffeeList;
-    return _coffeeList
-        .where((coffee) =>
-        coffee["name"]!.toLowerCase().contains(_query.toLowerCase()))
-        .toList();
-  }
-
-  void openCoffeeDetails(BuildContext context, Map<String, String> coffee) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) =>
-            HotCoffeeInformationPage(
-              path: coffee['image']!,
-              name: coffee['name']!,
-            ),
-      ),
-    );
-  }
+  // int clickTab = 0;
+  // String _query = '';
+  //
+  // final List<Map<String, String>> _coffeeList = [
+  //   {
+  //     "name": "Cappuccino",
+  //     "image": "lib/images/cappuccino.png",
+  //     "price": "175"
+  //   },
+  //   {"name": "Espresso", "image": "lib/images/espresso.png", "price": "150"},
+  //   {"name": "Americano", "image": "lib/images/americano.png", "price": "100"},
+  //   {"name": "Flat white", "image": "lib/images/flatwhite.png", "price": "110"},
+  // ];
+  //
+  // void updateQuery(String value) {
+  //   _query = value;
+  //   notifyListeners();
+  // }
+  //
+  // List<Map<String, String>> get filteredCoffees {
+  //   if (_query.isEmpty) return _coffeeList;
+  //   return _coffeeList
+  //       .where((coffee) =>
+  //       coffee["name"]!.toLowerCase().contains(_query.toLowerCase()))
+  //       .toList();
+  // }
+  //
+  // void openCoffeeDetails(BuildContext context, Map<String, String> coffee) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (_) =>
+  //           HotCoffeeInformationPage(
+  //             path: coffee['image']!,
+  //             name: coffee['name']!,
+  //           ),
+  //     ),
+  //   );
+  // }
 
 //==================== SEARCH FEATURE ====================//
 
+  // List<String> cartTitles = [];
+  // List<String> cartImages = [];
+  //
+  // GetProvider() {
+  //   loadCart();
+  //   loadFavourites();
+  // }
+  //
+  // Future<void> loadCart() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   cartTitles = prefs.getStringList('cartTitles') ?? [];
+  //   cartImages = prefs.getStringList('cartImages') ?? [];
+  //   notifyListeners();
+  // }
+  //
+  // Future<void> addToCart(String title, String path) async {
+  //   if (!cartTitles.contains(title)) {
+  //     cartTitles.add(title);
+  //     cartImages.add(path);
+  //     final prefs = await SharedPreferences.getInstance();
+  //     prefs.setStringList('cartTitles', cartTitles);
+  //     prefs.setStringList('cartImages', cartImages);
+  //     notifyListeners();
+  //   }
+  // }
+  //
+  // Future<void> removeFromCart(String title) async {
+  //   int index = cartTitles.indexOf(title);
+  //   if (index != -1) {
+  //     cartTitles.removeAt(index);
+  //     cartImages.removeAt(index);
+  //     final prefs = await SharedPreferences.getInstance();
+  //     prefs.setStringList('cartTitles', cartTitles);
+  //     prefs.setStringList('cartImages', cartImages);
+  //     notifyListeners();
+  //   }
+  // }
+  //
+  // bool isAdded(String title) => cartTitles.contains(title);
+  // // ------------------ CART ------------------ //
+  //
+  // List<String> favTitles = [];
+  // List<String> favImages = [];
+  //
+  // Future<void> loadFavourites() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   favTitles = prefs.getStringList('favTitles') ?? [];
+  //   favImages = prefs.getStringList('favImages') ?? [];
+  //   notifyListeners();
+  // }
+  //
+  // Future<void> addToFav(String title, String path) async {
+  //   if (!favTitles.contains(title)) {
+  //     favTitles.add(title);
+  //     favImages.add(path);
+  //     final prefs = await SharedPreferences.getInstance();
+  //     prefs.setStringList('favTitles', favTitles);
+  //     prefs.setStringList('favImages', favImages);
+  //     notifyListeners();
+  //   }
+  // }
+  //
+  // Future<void> removeFromFav(String title) async {
+  //   int index = favTitles.indexOf(title);
+  //   if (index != -1) {
+  //     favTitles.removeAt(index);
+  //     favImages.removeAt(index);
+  //     final prefs = await SharedPreferences.getInstance();
+  //     prefs.setStringList('favTitles', favTitles);
+  //     prefs.setStringList('favImages', favImages);
+  //     notifyListeners();
+  //   }
+  // }
+  // bool isFav(String title) => favTitles.contains(title);
+
+// ------------------ FAVOURITE ------------------ //
+
+
+  // 🟢 Coffee details list (main data)
+  final List<CoffeeDetails> coffeeList = [
+    CoffeeDetails(
+      coffeeId: '1',
+      coffeeName: 'Americano',
+      coffeePrice: '₹180',
+      coffeeRating: '4.5',
+      imagePath: 'lib/images/americano.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    CoffeeDetails(
+      coffeeId: '2',
+      coffeeName: 'Caffee Macchiato',
+      coffeePrice: '₹200',
+      coffeeRating: '4.6',
+      imagePath: 'lib/images/caffeemacchiato.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    CoffeeDetails(
+      coffeeId: '3',
+      coffeeName: 'Cappuccino',
+      coffeePrice: '₹190',
+      coffeeRating: '4.8',
+      imagePath: 'lib/images/cappuccino.png',
+      //  isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    CoffeeDetails(
+      coffeeId: '4',
+      coffeeName: 'Espresso',
+      coffeePrice: '₹160',
+      coffeeRating: '4.4',
+      imagePath: 'lib/images/espresso.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    CoffeeDetails(
+      coffeeId: '5',
+      coffeeName: 'Flat White',
+      coffeePrice: '₹210',
+      coffeeRating: '4.7',
+      imagePath: 'lib/images/flatwhite.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    CoffeeDetails(
+      coffeeId: '6',
+      coffeeName: 'Latte',
+      coffeePrice: '₹220',
+      coffeeRating: '4.9',
+      imagePath: 'lib/images/latte.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    CoffeeDetails(
+      coffeeId: '7',
+      coffeeName: 'Long Black',
+      coffeePrice: '₹170',
+      coffeeRating: '4.3',
+      imagePath: 'lib/images/longblack.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    CoffeeDetails(
+      coffeeId: '8',
+      coffeeName: 'Mocha',
+      coffeePrice: '₹230',
+      coffeeRating: '4.8',
+      imagePath: 'lib/images/mocha.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+  ];
+
+  // 🟣 Getter for coffee list
+  List<CoffeeDetails> get coffeeList1 => coffeeList;
   List<String> cartTitles = [];
   List<String> cartImages = [];
+// -------------------- CART --------------------
 
+ //List<String> get cartTitles => _cartTitles;
+  //List<String> get cartImages => _cartImages;
+
+  // -------------------- FAVOURITES --------------------
+  List<String> favTitles = [];
+  List<String> favImages = [];
+
+  //List<String> get favTitles => _favTitles;
+ // List<String> get favImages => _favImages;
+
+  // -------------------- INITIALIZATION --------------------
   GetProvider() {
     loadCart();
     loadFavourites();
   }
 
+  // -------------------- CART METHODS --------------------
   Future<void> loadCart() async {
     final prefs = await SharedPreferences.getInstance();
     cartTitles = prefs.getStringList('cartTitles') ?? [];
@@ -460,11 +629,17 @@ class GetProvider extends ChangeNotifier {
   }
 
   bool isAdded(String title) => cartTitles.contains(title);
-  // ------------------ CART ------------------ //
 
-  List<String> favTitles = [];
-  List<String> favImages = [];
+  // Future<void> clearCart() async {
+  //   cartTitles.clear();
+  //   cartImages.clear();
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.remove('cartTitles');
+  //   prefs.remove('cartImages');
+  //   notifyListeners();
+  // }
 
+  // -------------------- FAVOURITE METHODS --------------------
   Future<void> loadFavourites() async {
     final prefs = await SharedPreferences.getInstance();
     favTitles = prefs.getStringList('favTitles') ?? [];
@@ -472,7 +647,7 @@ class GetProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToFav(String title, String path) async {
+  Future<void> addToFavourite(String title, String path) async {
     if (!favTitles.contains(title)) {
       favTitles.add(title);
       favImages.add(path);
@@ -483,9 +658,9 @@ class GetProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> removeFromFav(String title) async {
+  Future<void> removeFromFavourite(String title) async {
     int index = favTitles.indexOf(title);
-    if (index != -1) {
+    if (index !=1) {
       favTitles.removeAt(index);
       favImages.removeAt(index);
       final prefs = await SharedPreferences.getInstance();
@@ -494,105 +669,31 @@ class GetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
   bool isFav(String title) => favTitles.contains(title);
 
-// ------------------ FAVOURITE ------------------ //
+  // Future<void> clearFavourites() async {
+  //   _favTitles.clear();
+  //   _favImages.clear();
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.remove('favTitles');
+  //   prefs.remove('favImages');
+  //   notifyListeners();
+  }
 
-
-  // 🟢 Coffee details list (main data)
-  final List<CoffeeDetails> coffeeList = [
-  CoffeeDetails(
-  coffeeId: '1',
-  coffeeName: 'Americano',
-  coffeePrice: '₹180',
-  coffeeRating: '4.5',
-  imagePath: 'lib/images/americano.png',
-   isAddedToCart: 'false',
-   isFavourite: 'false',
-  ),
-  CoffeeDetails(
-  coffeeId: '2',
-  coffeeName: 'Caffee Macchiato',
-  coffeePrice: '₹200',
-  coffeeRating: '4.6',
-  imagePath: 'lib/images/caffeemacchiato.png',
-   isAddedToCart: 'false',
-   isFavourite: 'false',
-  ),
-  CoffeeDetails(
-  coffeeId: '3',
-  coffeeName: 'Cappuccino',
-  coffeePrice: '₹190',
-  coffeeRating: '4.8',
-  imagePath: 'lib/images/cappuccino.png',
-   isAddedToCart: 'false',
-  isFavourite: 'false',
-  ),
-  CoffeeDetails(
-  coffeeId: '4',
-  coffeeName: 'Espresso',
-  coffeePrice: '₹160',
-  coffeeRating: '4.4',
-  imagePath: 'lib/images/espresso.png',
-  isAddedToCart: 'false',
-  isFavourite: 'false',
-  ),
-  CoffeeDetails(
-  coffeeId: '5',
-  coffeeName: 'Flat White',
-  coffeePrice: '₹210',
-  coffeeRating: '4.7',
-  imagePath: 'lib/images/flatwhite.png',
-  isAddedToCart: 'false',
-  isFavourite: 'false',
-  ),
-  CoffeeDetails(
-  coffeeId: '6',
-  coffeeName: 'Latte',
-  coffeePrice: '₹220',
-  coffeeRating: '4.9',
-  imagePath: 'lib/images/latte.png',
-  isAddedToCart: 'false',
-  isFavourite: 'false',
-  ),
-  CoffeeDetails(
-  coffeeId: '7',
-  coffeeName: 'Long Black',
-  coffeePrice: '₹170',
-  coffeeRating: '4.3',
-  imagePath: 'lib/images/longblack.png',
-  isAddedToCart: 'false',
-  isFavourite: 'false',
-  ),
-  CoffeeDetails(
-  coffeeId: '8',
-  coffeeName: 'Mocha',
-  coffeePrice: '₹230',
-  coffeeRating: '4.8',
-  imagePath: 'lib/images/mocha.png',
-  isAddedToCart: 'false',
-  isFavourite: 'false',
-  ),
-  ];
-
-  // 🟣 Getter for coffee list
-  List<CoffeeDetails> get coffeeList1 => coffeeList;
-
-  // 🟢 Toggle favourite
-  // void toggleFavourite(String coffeeId) {
-  // final index = _coffeeList.indexWhere((c) => c.coffeeId == coffeeId);
-  // if (index != -1) {
-  // _coffeeList[index].isFavourite =
-  // _coffeeList[index].isFavourite == 'true' ? 'false' : 'true';
-  // notifyListeners();
-  // }
-
-
+  // -------------------- COFFEE DETAILS PAGE --------------------
+  void openCoffeeDetails(BuildContext context, CoffeeDetails coffee) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => HotCoffeeInformationPage(
+          path: coffee.imagePath ?? '',
+          name: coffee.coffeeName ?? '',
+        ),
+      ),
+    );
 
 
   }
-
-
-
 
 

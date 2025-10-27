@@ -1,9 +1,6 @@
 import 'package:coffee_shop/core/constant/constant.dart';
 import 'package:coffee_shop/view/details_page.dart';
-import 'package:coffee_shop/view_models/get_provider_app_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../core/themes/app_colors.dart';
 import 'login_page.dart';
 

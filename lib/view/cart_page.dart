@@ -8,24 +8,24 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<GetProvider>(context);
+    final getProvider = Provider.of<GetProvider>(context);
 
-    if (provider.cartTitles.isEmpty) {
+    if (getProvider.cartTitles.isEmpty) {
       return const Center(child: Text(' Cart is empty'));
     }
 
     return ListView.builder(
-      itemCount: provider.cartTitles.length,
+      itemCount: getProvider.cartTitles.length,
       itemBuilder: (context, index) {
         return Card(
           margin: const EdgeInsets.all(8),
           child: ListTile(
-            leading: Image.asset(provider.cartImages[index], width: 50),
-            title: Text(provider.cartTitles[index]),
+            leading: Image.asset(getProvider.cartImages[index], width: 50),
+            title: Text(getProvider.cartTitles[index]),
             trailing: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                provider.removeFromCart(provider.cartTitles[index]);
+                getProvider.removeFromCart(getProvider.cartTitles[index]);
               },
             ),
           ),

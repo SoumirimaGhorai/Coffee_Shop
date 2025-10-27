@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //import '../../view_models/get_provider_app_controller.dart';
+import '../../view_models/get_provider_app_controller.dart';
 import '../themes/app_colors.dart';
 
 class ColdCoffeeInformationPage extends StatelessWidget {
@@ -12,6 +13,7 @@ class ColdCoffeeInformationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final getProvider = Provider.of<GetProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
             child: Padding(
@@ -136,65 +138,68 @@ class ColdCoffeeInformationPage extends StatelessWidget {
 
                           //-----------------------additional---------------------------------------------------//
 
-                          // Consumer<GetProvider>(
-                          //   builder: (context, provider, child) {
-                          //     return Column(
-                          //       children: [
-                          //         Row(
-                          //           children: [
-                          //             Transform.scale(
-                          //               scale: 0.7,
-                          //               child: Switch(
-                          //                 value: provider.isOatMilkSelected,
-                          //                 onChanged: provider.toggleOatMilk,
-                          //                 activeColor: AppColors.buttonColor,
-                          //               ),
-                          //             ),
-                          //             Text('Oat Milk'),
-                          //             SizedBox(
-                          //               width: 180,
-                          //             ),
-                          //             Text('\u20B9200')
-                          //           ],
-                          //         ),
-                          //         Row(
-                          //           children: [
-                          //             Transform.scale(
-                          //               scale: 0.7,
-                          //               child: Switch(
-                          //                 value: provider.isFatMilkSelected,
-                          //                 onChanged: provider.toggleFatMilk,
-                          //                 activeColor: AppColors.buttonColor,
-                          //               ),
-                          //             ),
-                          //             Text('Fat Milk'),
-                          //             SizedBox(
-                          //               width: 180,
-                          //             ),
-                          //             Text('\u20B9275')
-                          //           ],
-                          //         ),
-                          //         Row(
-                          //           children: [
-                          //             Transform.scale(
-                          //               scale: 0.7,
-                          //               child: Switch(
-                          //                 value: provider.isCreamSelected,
-                          //                 onChanged: provider.toggleCream,
-                          //                 activeColor: AppColors.buttonColor,
-                          //               ),
-                          //             ),
-                          //             Text('Heavy Cream'),
-                          //             SizedBox(
-                          //               width: 145,
-                          //             ),
-                          //             Text('\u20B9300')
-                          //           ],
-                          //         ),
-                          //       ],
-                          //     );
-                          //   },
-                          // ),
+                          Consumer<GetProvider>(
+                            builder: (context, provider, child) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Text(
+                                      "Choose one:",
+                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  RadioListTile<String>(
+                                    title: const Text("Oat Milk (₹200)"),
+                                    value: 'oat',
+                                    groupValue: getProvider.selectedMilk,
+                                    onChanged:getProvider.selectMilk,
+                                    activeColor: Colors.teal,
+                                    tileColor: Colors.transparent,
+                                  ),
+                                  RadioListTile<String>(
+                                    title: const Text("Fat Milk (₹275)"),
+                                    value: 'fat',
+                                    groupValue: getProvider.selectedMilk,
+                                    onChanged: getProvider.selectMilk,
+                                    activeColor: Colors.teal,
+                                    tileColor: Colors.transparent,
+                                  ),
+                                  RadioListTile<String>(
+                                    title: const Text("Heavy Cream (₹300)"),
+                                    value: 'cream',
+                                    groupValue: getProvider.selectedMilk,
+                                    onChanged: getProvider.selectMilk,
+                                    activeColor: Colors.teal,
+                                    tileColor: Colors.transparent,
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Total:",
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "₹${getProvider.totalPayment}",
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.teal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+
 
                           //------------------------------switch button ,text and rate-----------------------------------------------------//
 

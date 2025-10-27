@@ -41,9 +41,9 @@ class AppWidgets {
                               child:IconButton(
                                        icon: Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
                                         onPressed: () {
-                                         if (isFav) {provider.removeFromFav(coffeeDetails.coffeeName??'No Name');
+                                         if (isFav) {provider.removeFromFavourite(coffeeDetails.coffeeName??'No Name');
                                          } else {
-                                           provider.addToFav(coffeeDetails.coffeeName??'No Name', coffeeDetails.imagePath??'lib/images/latte.png');
+                                           provider.addToFavourite(coffeeDetails.coffeeName??'No Name', coffeeDetails.imagePath??'lib/images/latte.png');
                                           // switch to FAV tab
                                          }
                                          },
@@ -156,9 +156,9 @@ class AppWidgets {
                               child: IconButton(
                                 icon:  Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
                                 onPressed: () {
-                                  if (isFav) {provider.removeFromFav(title);
+                                  if (isFav) {provider.removeFromFavourite(title);
                                   } else {
-                                    provider.addToFav(title, path);
+                                    provider.addToFavourite(title, path);
                                     // switch to FAV tab
                                   }
                                 },

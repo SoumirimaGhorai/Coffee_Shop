@@ -26,7 +26,7 @@ class FavouritePage extends StatelessWidget {
             trailing: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                provider.removeFromFav(provider.favTitles[index]);
+                provider.removeFromFavourite(provider.favTitles[index]);
               },
             ),
           ),
