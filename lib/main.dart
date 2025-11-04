@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'view/get_started.dart';
 
-void main()async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final getProvider = GetProvider();
-  await getProvider.loadCart();
-  await getProvider.loadFavourites();// Load saved cart
+ // await getProvider.loadCart();
+  //await getProvider.loadFavourites();// Load saved cart
   runApp(ChangeNotifierProvider(create: (context)=>GetProvider(),
 
       child: const MyApp())

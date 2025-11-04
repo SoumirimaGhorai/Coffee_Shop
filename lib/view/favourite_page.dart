@@ -9,24 +9,24 @@ class FavouritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<GetProvider>(context);
+    final getProvider = Provider.of<GetProvider>(context);
 
-    if (provider.favTitles.isEmpty) {
+    if (getProvider.favTitles.isEmpty) {
       return const Center(child: Text(' No favourites yet'));
     }
 
     return ListView.builder(
-      itemCount: provider.favTitles.length,
+      itemCount: getProvider.favTitles.length,
       itemBuilder: (context, index) {
         return Card(
           margin: const EdgeInsets.all(8),
           child: ListTile(
-            leading: Image.asset(provider.favImages[index], width: 50),
-            title: Text(provider.favTitles[index]),
+            leading: Image.asset(getProvider.favImages[index], width: 50),
+            title: Text(getProvider.favTitles[index]),
             trailing: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                provider.removeFromFavourite(provider.favTitles[index]);
+               getProvider.removeFromFavourite(getProvider.favTitles[index]);
               },
             ),
           ),

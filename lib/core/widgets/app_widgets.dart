@@ -1,14 +1,18 @@
-import 'package:coffee_shop/data/model/coffee_details.dart';
+import 'package:coffee_shop/data/model/cold_coffee_details.dart';
+import 'package:coffee_shop/data/model/hot_coffee_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../view_models/get_provider_app_controller.dart';
 
 class AppWidgets {
-  static Widget allHotCoffee(BuildContext context,CoffeeDetails coffeeDetails,) {
+  static Widget allHotCoffee(BuildContext context,HotCoffeeDetails hotCoffeeDetails,) {
+    //this is function that return widget as you know.
+    // Now you know break points means hold execution hold in debugging model.
+    //fisrt i set break points ''
     return Consumer<GetProvider>(
       builder: ( context,  provider,  child) {
-        bool isFav = provider.isFav(coffeeDetails.coffeeName??'No name');
-        bool inCart = provider.isAdded(coffeeDetails.imagePath??'lib/images/latte.png');
+        bool isFav = provider.isFav(hotCoffeeDetails.coffeeName??'No name');
+        bool inCart = provider.isAdded(hotCoffeeDetails.coffeeName??'');
         return Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -28,7 +32,7 @@ class AppWidgets {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(coffeeDetails.imagePath??'lib/images/latte.png',
+                              child: Image.asset(hotCoffeeDetails.imagePath??'lib/images/latte.png',
                                 height: 80,
                                 fit: BoxFit.cover,
                               ),
@@ -41,9 +45,9 @@ class AppWidgets {
                               child:IconButton(
                                        icon: Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
                                         onPressed: () {
-                                         if (isFav) {provider.removeFromFavourite(coffeeDetails.coffeeName??'No Name');
+                                         if (isFav) {provider.removeFromFavourite(hotCoffeeDetails.coffeeName??'No Name');
                                          } else {
-                                           provider.addToFavourite(coffeeDetails.coffeeName??'No Name', coffeeDetails.imagePath??'lib/images/latte.png');
+                                           provider.addToFavourite(hotCoffeeDetails.coffeeName??'No Name', hotCoffeeDetails.imagePath??'lib/images/latte.png');
                                           // switch to FAV tab
                                          }
                                          },
@@ -67,7 +71,7 @@ class AppWidgets {
                       children: [
                         Expanded(
                             child: Text(
-                              coffeeDetails.coffeeName??'No Name',
+                              hotCoffeeDetails.coffeeName??'No Name',
                               style: TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                             )),
@@ -95,11 +99,12 @@ class AppWidgets {
                       ),
                       onPressed: () {
                         if (!inCart) {
-                          provider.addToCart(coffeeDetails.coffeeName??'No Name', coffeeDetails.imagePath??'lib/images/latte.png');
+                          provider.addToCart(hotCoffeeDetails.coffeeName??'No Name', hotCoffeeDetails.imagePath??'');
                         }
                         },
                       child: Text(
                         inCart ? 'Added ' : 'Add to Cart',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                     ),
@@ -116,11 +121,11 @@ class AppWidgets {
       }
     );
   }
-  static Widget allColdCoffee(String title, String path) {
+  static Widget allColdCoffee(BuildContext context,ColdCoffeeDetails coldCoffeeDetails) {
     return Consumer<GetProvider>(
         builder: (context, provider, child) {
-          bool isFav = provider.isFav(title);
-          bool inCart = provider.isAdded(title);
+          bool isFav = provider.isFav(coldCoffeeDetails.coffeeName??'No name');
+          bool inCart = provider.isAdded(coldCoffeeDetails.coffeeName??'');
           return Container(
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -141,7 +146,7 @@ class AppWidgets {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(path,
+                              child: Image.asset(coldCoffeeDetails.imagePath??'lib/images/latte.png',
                                 height: 80,
                                 fit: BoxFit.cover,
                               ),
@@ -156,9 +161,9 @@ class AppWidgets {
                               child: IconButton(
                                 icon:  Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
                                 onPressed: () {
-                                  if (isFav) {provider.removeFromFavourite(title);
+                                  if (isFav) {provider.removeFromFavourite(coldCoffeeDetails.coffeeName??'No Name');
                                   } else {
-                                    provider.addToFavourite(title, path);
+                                    provider.addToFavourite(coldCoffeeDetails.coffeeName??'No Name', coldCoffeeDetails.imagePath??'lib/images/latte.png');
                                     // switch to FAV tab
                                   }
                                 },
@@ -178,7 +183,7 @@ class AppWidgets {
                       children: [
                         Expanded(
                             child: Text(
-                              title,
+                              coldCoffeeDetails.coffeeName??'No Name',
                               style: TextStyle(fontSize: 12),
                               overflow: TextOverflow.ellipsis,
                             )),
@@ -206,7 +211,7 @@ class AppWidgets {
                           foregroundColor: Colors.white,),
                         onPressed: () {
                           if (!inCart) {
-                            provider.addToCart(title, path);
+                            provider.addToCart(coldCoffeeDetails.coffeeName??'No Name', coldCoffeeDetails.imagePath??'');
                             // switch to Cart tab
                           }
                         },

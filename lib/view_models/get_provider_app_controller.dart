@@ -5,7 +5,8 @@ import 'package:coffee_shop/view/cold_coffee_page.dart';
 import 'package:coffee_shop/view/favourite_page.dart';
 import 'package:coffee_shop/view/profile_page.dart';
 import 'package:flutter/material.dart';
-import '../data/model/coffee_details.dart';
+import '../data/model/cold_coffee_details.dart';
+import '../data/model/hot_coffee_details.dart';
 import '../view/cart_page.dart';
 import '../view/details_page.dart';
 import '../view/get_started.dart';
@@ -13,7 +14,11 @@ import '../view/hot_coffee_page.dart';
 import '../view/login_page.dart';
 import '../view/signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class GetProvider extends ChangeNotifier {
+
+
+  //==================== PAGE VIEW ====================//
   final PageController pageController = PageController();
   int _selectedIndex = 0; // 0 = Home, 1 = Cart , 2 =  Favourite, 3 = Profile
   int get selectedIndex => _selectedIndex;
@@ -34,23 +39,6 @@ class GetProvider extends ChangeNotifier {
   void onPageChanged(int page) {
     _selectedIndex = page;
     notifyListeners();
-  }
-
-  //==================== PAGE NAVIGATION CONTROL ====================//
-
-  void nav(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
-  }
-
-  void getNav(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SignupPage()));
-  }
-
-  void logNav(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => PageViewPage()));
   }
 
 //==================== GENERAL NAVIGATION ====================//
@@ -171,8 +159,8 @@ class GetProvider extends ChangeNotifier {
         MaterialPageRoute(
             builder: (context) =>
                 ColdCoffeeInformationPage(
-                    title: 'Classic cold coffee',
-                    path: 'lib/images/classiccoldcoffee.png'
+                  title: 'Classic cold coffee',
+                  path: 'lib/images/classiccoldcoffee.png',
                 )));
   }
 
@@ -231,7 +219,11 @@ class GetProvider extends ChangeNotifier {
                 )));
   }
 
-  //==================== COLD COFFEE DETAIL PAGES ====================//
+  //==================== COLD COFFEE INFORMATION ====================//
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmController = TextEditingController();
 
   Icon passIcon = Icon(Icons.visibility_off);
   bool hidePassword = true;
@@ -254,30 +246,24 @@ class GetProvider extends ChangeNotifier {
 
   //==================== PASSWORD VISIBILITY ====================//
 
-  String email = '';
-  String password = '';
-  bool isPasswordMatch = false;
 
-  // ✅ Check if password == confirm password
-  void checkPasswordMatch(String pass, String confirmPass) {
-    isPasswordMatch = pass == confirmPass && pass.isNotEmpty;
-    notifyListeners();
+  Future<void> signUp(String email, String password, String confirmPassword) async {
+    if (email.isEmpty || password.isEmpty) return;
+    if (password != confirmPassword) return; // password mismatch: do nothing
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+    await prefs.setString('password', password);
+    // optionally set a flag:
+    await prefs.setBool('logged_in', true);
   }
 
-  // ✅ Save credentials after signup
-  Future<void> signUp(String email, String password) async {
+  // --- login: check saved credentials ---
+  Future<bool> login(String email, String password) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('saved_email', email);
-    await prefs.setString('saved_password', password);
-  }
+    final savedEmail = prefs.getString('email');
+    final savedPassword = prefs.getString('password');
 
-  // ✅ Check credentials for login
-  Future<bool> login(String inputEmail, String inputPassword) async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedEmail = prefs.getString('saved_email');
-    final savedPassword = prefs.getString('saved_password');
-
-    if (inputEmail == savedEmail && inputPassword == savedPassword) {
+    if (email == savedEmail && password == savedPassword) {
       await prefs.setBool('logged_in', true);
       return true;
     } else {
@@ -285,26 +271,34 @@ class GetProvider extends ChangeNotifier {
     }
   }
 
-  // ✅ Check login + show splash + get started
+  // --- check on splash and navigate to CoffeePage with isLoggedIn ---
   Future<void> checkLoginAndNavigate(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 3)); // splash delay
     final prefs = await SharedPreferences.getInstance();
-    bool loggedIn = prefs.getBool('logged_in') ?? false;
+    final savedEmail = prefs.getString('email');
+    final savedPassword = prefs.getString('password');
+
+    await Future.delayed(const Duration(seconds: 2)); // splash delay
+    final isLoggedIn = savedEmail != null && savedPassword != null;
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => CoffeePage(isLoggedIn: loggedIn)),
+      MaterialPageRoute(builder: (_) => CoffeePage(isLoggedIn: isLoggedIn)),
     );
   }
 
-  // ✅ Logout
-  Future<void> logout(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('logged_in', false);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => CoffeePage(isLoggedIn: false)));
-  }
+  // helper nav functions (optional)
+  void getNav(BuildContext context) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginPage()));
+  void nav(BuildContext context) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SignupPage()));
+  void logNav(BuildContext context) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => PageViewPage()));
+
+  // // ✅ Logout
+  // Future<void> logout(BuildContext context) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setBool('logged_in', false);
+  //   Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => CoffeePage(isLoggedIn: false)));
+  // }
 
   //==================== PASSWORD VALIDATION ====================//
 
@@ -379,129 +373,9 @@ class GetProvider extends ChangeNotifier {
 
   //====================COFFEE'S PRICE CALCULATION ====================//
 
-  // int clickTab = 0;
-  // String _query = '';
-  //
-  // final List<Map<String, String>> _coffeeList = [
-  //   {
-  //     "name": "Cappuccino",
-  //     "image": "lib/images/cappuccino.png",
-  //     "price": "175"
-  //   },
-  //   {"name": "Espresso", "image": "lib/images/espresso.png", "price": "150"},
-  //   {"name": "Americano", "image": "lib/images/americano.png", "price": "100"},
-  //   {"name": "Flat white", "image": "lib/images/flatwhite.png", "price": "110"},
-  // ];
-  //
-  // void updateQuery(String value) {
-  //   _query = value;
-  //   notifyListeners();
-  // }
-  //
-  // List<Map<String, String>> get filteredCoffees {
-  //   if (_query.isEmpty) return _coffeeList;
-  //   return _coffeeList
-  //       .where((coffee) =>
-  //       coffee["name"]!.toLowerCase().contains(_query.toLowerCase()))
-  //       .toList();
-  // }
-  //
-  // void openCoffeeDetails(BuildContext context, Map<String, String> coffee) {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (_) =>
-  //           HotCoffeeInformationPage(
-  //             path: coffee['image']!,
-  //             name: coffee['name']!,
-  //           ),
-  //     ),
-  //   );
-  // }
 
-//==================== SEARCH FEATURE ====================//
-
-  // List<String> cartTitles = [];
-  // List<String> cartImages = [];
-  //
-  // GetProvider() {
-  //   loadCart();
-  //   loadFavourites();
-  // }
-  //
-  // Future<void> loadCart() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   cartTitles = prefs.getStringList('cartTitles') ?? [];
-  //   cartImages = prefs.getStringList('cartImages') ?? [];
-  //   notifyListeners();
-  // }
-  //
-  // Future<void> addToCart(String title, String path) async {
-  //   if (!cartTitles.contains(title)) {
-  //     cartTitles.add(title);
-  //     cartImages.add(path);
-  //     final prefs = await SharedPreferences.getInstance();
-  //     prefs.setStringList('cartTitles', cartTitles);
-  //     prefs.setStringList('cartImages', cartImages);
-  //     notifyListeners();
-  //   }
-  // }
-  //
-  // Future<void> removeFromCart(String title) async {
-  //   int index = cartTitles.indexOf(title);
-  //   if (index != -1) {
-  //     cartTitles.removeAt(index);
-  //     cartImages.removeAt(index);
-  //     final prefs = await SharedPreferences.getInstance();
-  //     prefs.setStringList('cartTitles', cartTitles);
-  //     prefs.setStringList('cartImages', cartImages);
-  //     notifyListeners();
-  //   }
-  // }
-  //
-  // bool isAdded(String title) => cartTitles.contains(title);
-  // // ------------------ CART ------------------ //
-  //
-  // List<String> favTitles = [];
-  // List<String> favImages = [];
-  //
-  // Future<void> loadFavourites() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   favTitles = prefs.getStringList('favTitles') ?? [];
-  //   favImages = prefs.getStringList('favImages') ?? [];
-  //   notifyListeners();
-  // }
-  //
-  // Future<void> addToFav(String title, String path) async {
-  //   if (!favTitles.contains(title)) {
-  //     favTitles.add(title);
-  //     favImages.add(path);
-  //     final prefs = await SharedPreferences.getInstance();
-  //     prefs.setStringList('favTitles', favTitles);
-  //     prefs.setStringList('favImages', favImages);
-  //     notifyListeners();
-  //   }
-  // }
-  //
-  // Future<void> removeFromFav(String title) async {
-  //   int index = favTitles.indexOf(title);
-  //   if (index != -1) {
-  //     favTitles.removeAt(index);
-  //     favImages.removeAt(index);
-  //     final prefs = await SharedPreferences.getInstance();
-  //     prefs.setStringList('favTitles', favTitles);
-  //     prefs.setStringList('favImages', favImages);
-  //     notifyListeners();
-  //   }
-  // }
-  // bool isFav(String title) => favTitles.contains(title);
-
-// ------------------ FAVOURITE ------------------ //
-
-
-  // 🟢 Coffee details list (main data)
-  final List<CoffeeDetails> coffeeList = [
-    CoffeeDetails(
+  final List<HotCoffeeDetails> hotCoffeeList = [
+    HotCoffeeDetails(
       coffeeId: '1',
       coffeeName: 'Americano',
       coffeePrice: '₹180',
@@ -510,7 +384,7 @@ class GetProvider extends ChangeNotifier {
       // isAddedToCart: 'false',
       // isFavourite: 'false',
     ),
-    CoffeeDetails(
+    HotCoffeeDetails(
       coffeeId: '2',
       coffeeName: 'Caffee Macchiato',
       coffeePrice: '₹200',
@@ -519,7 +393,7 @@ class GetProvider extends ChangeNotifier {
       // isAddedToCart: 'false',
       // isFavourite: 'false',
     ),
-    CoffeeDetails(
+    HotCoffeeDetails(
       coffeeId: '3',
       coffeeName: 'Cappuccino',
       coffeePrice: '₹190',
@@ -528,7 +402,7 @@ class GetProvider extends ChangeNotifier {
       //  isAddedToCart: 'false',
       // isFavourite: 'false',
     ),
-    CoffeeDetails(
+    HotCoffeeDetails(
       coffeeId: '4',
       coffeeName: 'Espresso',
       coffeePrice: '₹160',
@@ -537,7 +411,7 @@ class GetProvider extends ChangeNotifier {
       // isAddedToCart: 'false',
       // isFavourite: 'false',
     ),
-    CoffeeDetails(
+    HotCoffeeDetails(
       coffeeId: '5',
       coffeeName: 'Flat White',
       coffeePrice: '₹210',
@@ -546,7 +420,7 @@ class GetProvider extends ChangeNotifier {
       // isAddedToCart: 'false',
       // isFavourite: 'false',
     ),
-    CoffeeDetails(
+    HotCoffeeDetails(
       coffeeId: '6',
       coffeeName: 'Latte',
       coffeePrice: '₹220',
@@ -555,7 +429,7 @@ class GetProvider extends ChangeNotifier {
       // isAddedToCart: 'false',
       // isFavourite: 'false',
     ),
-    CoffeeDetails(
+    HotCoffeeDetails(
       coffeeId: '7',
       coffeeName: 'Long Black',
       coffeePrice: '₹170',
@@ -564,7 +438,7 @@ class GetProvider extends ChangeNotifier {
       // isAddedToCart: 'false',
       // isFavourite: 'false',
     ),
-    CoffeeDetails(
+    HotCoffeeDetails(
       coffeeId: '8',
       coffeeName: 'Mocha',
       coffeePrice: '₹230',
@@ -575,29 +449,23 @@ class GetProvider extends ChangeNotifier {
     ),
   ];
 
-  // 🟣 Getter for coffee list
-  List<CoffeeDetails> get coffeeList1 => coffeeList;
+ //----------   Hot Coffee details list (main data) ------------------------------------
+
+  List<HotCoffeeDetails> get coffeeList1 => hotCoffeeList;
   List<String> cartTitles = [];
   List<String> cartImages = [];
-// -------------------- CART --------------------
-
- //List<String> get cartTitles => _cartTitles;
-  //List<String> get cartImages => _cartImages;
-
-  // -------------------- FAVOURITES --------------------
   List<String> favTitles = [];
   List<String> favImages = [];
 
-  //List<String> get favTitles => _favTitles;
- // List<String> get favImages => _favImages;
+  // -------------------- CART & FAVOURITES --------------------
 
-  // -------------------- INITIALIZATION --------------------
+
   GetProvider() {
     loadCart();
     loadFavourites();
   }
+// -------------------- INITIALIZATION --------------------
 
-  // -------------------- CART METHODS --------------------
   Future<void> loadCart() async {
     final prefs = await SharedPreferences.getInstance();
     cartTitles = prefs.getStringList('cartTitles') ?? [];
@@ -629,17 +497,8 @@ class GetProvider extends ChangeNotifier {
   }
 
   bool isAdded(String title) => cartTitles.contains(title);
+  // -------------------- CART METHODS --------------------
 
-  // Future<void> clearCart() async {
-  //   cartTitles.clear();
-  //   cartImages.clear();
-  //   final prefs = await SharedPreferences.getInstance();
-  //   prefs.remove('cartTitles');
-  //   prefs.remove('cartImages');
-  //   notifyListeners();
-  // }
-
-  // -------------------- FAVOURITE METHODS --------------------
   Future<void> loadFavourites() async {
     final prefs = await SharedPreferences.getInstance();
     favTitles = prefs.getStringList('favTitles') ?? [];
@@ -660,7 +519,7 @@ class GetProvider extends ChangeNotifier {
 
   Future<void> removeFromFavourite(String title) async {
     int index = favTitles.indexOf(title);
-    if (index !=1) {
+    if (index != -1) {
       favTitles.removeAt(index);
       favImages.removeAt(index);
       final prefs = await SharedPreferences.getInstance();
@@ -669,31 +528,190 @@ class GetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
   bool isFav(String title) => favTitles.contains(title);
 
-  // Future<void> clearFavourites() async {
-  //   _favTitles.clear();
-  //   _favImages.clear();
-  //   final prefs = await SharedPreferences.getInstance();
-  //   prefs.remove('favTitles');
-  //   prefs.remove('favImages');
-  //   notifyListeners();
-  }
+  // -------------------- FAVOURITE METHODS --------------------
 
-  // -------------------- COFFEE DETAILS PAGE --------------------
-  void openCoffeeDetails(BuildContext context, CoffeeDetails coffee) {
+  void goToHotCoffeeDetails(BuildContext context, String path, String name) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => HotCoffeeInformationPage(
-          path: coffee.imagePath ?? '',
-          name: coffee.coffeeName ?? '',
-        ),
+        builder: (_) =>
+            HotCoffeeInformationPage(
+              path: path,
+              name: name,
+            ),
       ),
     );
-
-
   }
+  // -------------------- COFFEE DETAILS PAGE --------------------
+
+
+  final List<ColdCoffeeDetails> coldCoffeeList = [
+    ColdCoffeeDetails(
+      coffeeId: '1',
+      coffeeName: 'Affogato',
+      coffeePrice: '₹250',
+      coffeeRating: '4.7',
+      imagePath: 'lib/images/affogato.png',
+      // isAddedToCart: 'false',
+      // isFavourite: 'false',
+    ),
+    ColdCoffeeDetails(
+      coffeeId: '2',
+      coffeeName: 'Cold Brew',
+      coffeePrice: '₹200',
+      coffeeRating: '4.6',
+      imagePath: 'lib/images/coldbrew.png',
+    ),
+    ColdCoffeeDetails(
+      coffeeId: '3',
+      coffeeName: 'Classic Cold Coffee',
+      coffeePrice: '₹180',
+      coffeeRating: '4.5',
+      imagePath: 'lib/images/classiccoldcoffee.png',
+    ),
+    ColdCoffeeDetails(
+      coffeeId: '4',
+      coffeeName: 'Cortado',
+      coffeePrice: '₹190',
+      coffeeRating: '4.3',
+      imagePath: 'lib/images/cortado.png',
+    ),
+    ColdCoffeeDetails(
+      coffeeId: '5',
+      coffeeName: 'Mazagran',
+      coffeePrice: '₹210',
+      coffeeRating: '4.8',
+      imagePath: 'lib/images/mazagran.png',
+    ),
+    ColdCoffeeDetails(
+      coffeeId: '6',
+      coffeeName: 'Vanilla Iced Coffee',
+      coffeePrice: '₹230',
+      coffeeRating: '4.9',
+      imagePath: 'lib/images/vanillaicedcoffee.png',
+    ),
+    ColdCoffeeDetails(
+      coffeeId: '7',
+      coffeeName: 'Vietnamese Coconut Coffee',
+      coffeePrice: '₹240',
+      coffeeRating: '4.7',
+      imagePath: 'lib/images/vietnamesecoconutcoffee.png',
+    ),
+    ColdCoffeeDetails(
+      coffeeId: '8',
+      coffeeName: 'Vietnamese Cold Coffee',
+      coffeePrice: '₹220',
+      coffeeRating: '4.8',
+      imagePath: 'lib/images/vietnamesecoldcoffee.png',
+    ),
+  ];
+
+ //----------------- Cold Coffee Details List -----------------------------
+  List<ColdCoffeeDetails> get coldCoffeeList1 => coldCoffeeList;
+  List<String> cartTitles1 = [];
+  List<String> cartImages1= [];
+  List<String> favTitles1 = [];
+  List<String> favImages1 = [];
+
+  // -------------------- CART & FAVOURITES --------------------
+
+
+  GetProvidercold() {
+    loadCart();
+    loadFavourites();
+  }
+// -------------------- INITIALIZATION --------------------
+
+  Future<void> coldLoadCart() async {
+    final prefs = await SharedPreferences.getInstance();
+    cartTitles1 = prefs.getStringList('cartTitles') ?? [];
+    cartImages1= prefs.getStringList('cartImages') ?? [];
+    notifyListeners();
+  }
+
+  Future<void> coldAddToCart(String title, String path) async {
+    if (!cartTitles1.contains(title)) {
+      cartTitles1.add(title);
+      cartImages1.add(path);
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setStringList('cartTitles', cartTitles1);
+      prefs.setStringList('cartImages', cartImages1);
+      notifyListeners();
+    }
+  }
+
+  Future<void> coldRemoveFromCart(String title) async {
+    int index = cartTitles1.indexOf(title);
+    if (index != -1) {
+      cartTitles1.removeAt(index);
+      cartImages1.removeAt(index);
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setStringList('cartTitles', cartTitles1);
+      prefs.setStringList('cartImages', cartImages1);
+      notifyListeners();
+    }
+  }
+
+  bool isColdAdded(String title) => cartTitles1.contains(title);
+  // -------------------- CART METHODS --------------------
+
+  Future<void> coldLoadFavourites() async {
+    final prefs = await SharedPreferences.getInstance();
+    favTitles1 = prefs.getStringList('favTitles') ?? [];
+    favImages1 = prefs.getStringList('favImages') ?? [];
+    notifyListeners();
+  }
+
+  Future<void> coldAddToFavourite(String title, String path) async {
+    if (!favTitles1.contains(title)) {
+      favTitles1.add(title);
+      favImages1.add(path);
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setStringList('favTitles', favTitles1);
+      prefs.setStringList('favImages', favImages1);
+      notifyListeners();
+    }
+  }
+
+  Future<void> coldRemoveFromFavourite(String title) async {
+    int index = favTitles1.indexOf(title);
+    if (index != -1) {
+      favTitles1.removeAt(index);
+      favImages1.removeAt(index);
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setStringList('favTitles', favTitles1);
+      prefs.setStringList('favImages', favImages1);
+      notifyListeners();
+    }
+  }
+  bool isColdFav(String title) => favTitles1.contains(title);
+
+
+
+
+  void goToColdCoffeeDetails(BuildContext context, String path, String title) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            ColdCoffeeInformationPage(
+              path: path,
+              title: title,
+
+            ),
+      ),
+    );
+  }
+// -------------------- COFFEE DETAILS PAGE --------------------
+
+
+}
+
+
+
+
+
 
 

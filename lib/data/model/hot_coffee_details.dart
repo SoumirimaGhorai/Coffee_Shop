@@ -1,4 +1,4 @@
-class CoffeeDetails {
+class HotCoffeeDetails {
   String? coffeeId;
   String? coffeeName;
   String? coffeePrice;
@@ -7,7 +7,7 @@ class CoffeeDetails {
   // String? isAddedToCart;
   // String? isFavourite;
 
-  CoffeeDetails({
+  HotCoffeeDetails({
     this.coffeeId,
     this.coffeeName,
     this.coffeePrice,
@@ -18,8 +18,8 @@ class CoffeeDetails {
   });
 
   // Optional: Factory constructor to create from a map
-  factory CoffeeDetails.fromMap(Map<String, dynamic> map) {
-    return CoffeeDetails(
+  factory HotCoffeeDetails.fromMap(Map<String, dynamic> map) {
+    return HotCoffeeDetails(
       coffeeId: map['coffeeId'] as String?,
       coffeeName: map['coffeeName'] as String?,
       coffeePrice: map['coffeePrice'] as String?,
@@ -43,3 +43,6 @@ class CoffeeDetails {
     };
   }
 }
+
+
+

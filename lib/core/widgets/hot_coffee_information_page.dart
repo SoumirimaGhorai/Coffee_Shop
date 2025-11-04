@@ -251,68 +251,6 @@ class HotCoffeeInformationPage extends StatelessWidget {
                         );
                       },
                     ),
-
-  // Milk box widget
-                          // Consumer<GetProvider>(
-                          //   builder: (context, provider, child) {
-                          //     return Column(
-                          //       children: [
-                          //         Row(
-                          //           children: [
-                          //             Transform.scale(
-                          //               scale: 0.7,
-                          //               child: Switch(
-                          //                 value: provider.isOatMilkSelected,
-                          //                 onChanged: provider.toggleOatMilk,
-                          //                 activeColor: AppColors.buttonColor,
-                          //               ),
-                          //             ),
-                          //             Text('Oat Milk'),
-                          //             SizedBox(
-                          //               width: 180,
-                          //             ),
-                          //             Text('\u20B9200')
-                          //           ],
-                          //         ),
-                          //         Row(
-                          //           children: [
-                          //             Transform.scale(
-                          //               scale: 0.7,
-                          //               child: Switch(
-                          //                 value: getProvider.isFatMilkSelected,
-                          //                 onChanged: provider.toggleFatMilk,
-                          //                 activeColor: AppColors.buttonColor,
-                          //               ),
-                          //             ),
-                          //             Text('Fat Milk'),
-                          //             SizedBox(
-                          //               width: 180,
-                          //             ),
-                          //             Text('\u20B9275')
-                          //           ],
-                          //         ),
-                          //         Row(
-                          //           children: [
-                          //             Transform.scale(
-                          //               scale: 0.7,
-                          //               child: Switch(
-                          //                 value: provider.isCreamSelected,
-                          //                 onChanged: provider.toggleCream,
-                          //                 activeColor: AppColors.buttonColor,
-                          //               ),
-                          //             ),
-                          //             Text('Heavy Cream'),
-                          //             SizedBox(
-                          //               width: 145,
-                          //             ),
-                          //             Text('\u20B9300')
-                          //           ],
-                          //         ),
-                          //       ],
-                          //     );
-                          //   },
-                          // ),
-                  //---------------------------------------split and buy now -------------------------------------------------------------------------------
                   Row(children: [
                     Text(
                       'Split',
@@ -364,7 +302,7 @@ class HotCoffeeInformationPage extends StatelessWidget {
                               ),
                             ),
                           ),
-
+//---------------------------------------split and buy now -----------------------------
                           // Count
                           Expanded(
                             child: Center(

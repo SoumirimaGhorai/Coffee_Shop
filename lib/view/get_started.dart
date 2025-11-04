@@ -1,6 +1,9 @@
 import 'package:coffee_shop/core/constant/constant.dart';
 import 'package:coffee_shop/view/details_page.dart';
+import 'package:coffee_shop/view/signup_page.dart';
+import 'package:coffee_shop/view_models/get_provider_app_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../core/themes/app_colors.dart';
 import 'login_page.dart';
 
@@ -10,6 +13,7 @@ class CoffeePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final getProvider=Provider.of<GetProvider>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
@@ -69,13 +73,9 @@ class CoffeePage extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     if (isLoggedIn) {
-                      Navigator.pushReplacement(
-                          context, MaterialPageRoute(builder: (_) =>
-                          DetailsPage()));
+                      getProvider.nav(context);
                     } else {
-                      Navigator.pushReplacement(
-                          context, MaterialPageRoute(builder: (_) =>
-                          LoginPage()));
+                     getProvider.getNav(context);
                     }
                   },
                 child: Center(child: Text("Get Started",style: TextStyle(color: Colors.white),)),
