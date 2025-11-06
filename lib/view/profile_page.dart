@@ -75,12 +75,8 @@ class ProfilePage extends StatelessWidget {
               ),
 
               const SizedBox(height: 24),
-
-              // Menu items
-             // _buildListTile(Icons.notifications_none, "Notifications"),
-             // _buildListTile(Icons.settings_outlined, "Settings"),
-             // _buildListTile(Icons.menu_book_outlined, "Documentation"),
-              //_buildListTile(Icons.help_outline, "Help Center"),
+              _buildListTile(Icons.person, "Profile"),
+              _buildListTile(Icons.settings, "Settings"),
 
               SizedBox(height: 20),
               Column(

@@ -23,42 +23,37 @@ class AppWidgets {
                     offset: Offset(2, 4),
                   )]
               ),
+          margin:  EdgeInsets.symmetric(vertical: 5, horizontal: 8),
               child: Column(mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                    Padding(
-                     padding: const EdgeInsets.only(top: 10.0,left: 30,right: 10),
+                     padding:  EdgeInsets.only(top: 8.0,left: 8,right: 8),
                      child: Stack(alignment: Alignment.topRight,
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(hotCoffeeDetails.imagePath??'lib/images/latte.png',
-                                height: 80,
                                 fit: BoxFit.cover,
                               ),
                             ),
 
                             //---------------------image in container-----------------------------------------//
-                            Padding(
-                              padding:  EdgeInsets.only(
-                                  right: 8, left: 10.0, top: 10.0),
-                              child:IconButton(
-                                       icon: Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
-                                        onPressed: () {
-                                         if (isFav) {provider.removeFromFavourite(hotCoffeeDetails.coffeeName??'No Name');
-                                         } else {
-                                           provider.addToFavourite(hotCoffeeDetails.coffeeName??'No Name', hotCoffeeDetails.imagePath??'lib/images/latte.png');
-                                          // switch to FAV tab
-                                         }
-                                         },
-                                // Icons.favorite_border,
-                                // color: Colors.white,
-                                // size: 15,
+                            IconButton(
+                                     icon: Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.white.withOpacity(0.8),
+                                shadowColor: Colors.brown.withOpacity(0.3),
+                                elevation: 3,
+                                shape: CircleBorder(),
                               ),
-
-
-                            //---------------------favourite icon-----------------------------------------//
-
+                                      onPressed: () {
+                                       if (isFav) {provider.removeFromFavourite(hotCoffeeDetails.coffeeName??'No Name');
+                                       } else {
+                                         provider.addToFavourite(hotCoffeeDetails.coffeeName??'No Name', hotCoffeeDetails.imagePath??'lib/images/latte.png');
+                                        // switch to FAV tab
+                                       }
+                                       },
                             ) ]),
                    ),
 
@@ -66,7 +61,7 @@ class AppWidgets {
                   //---------------------icon-----------------------------------------//
 
                   Padding(
-                    padding: EdgeInsets.only(bottom:5, left: 10, right: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Row(
                       children: [
                         Expanded(
@@ -90,10 +85,10 @@ class AppWidgets {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20.0,top: 10),
+                    padding: const EdgeInsets.only(left: 20.0,top: 4, bottom: 8),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          minimumSize: Size(5, 40),
+                          minimumSize: Size(5, 50),
                           backgroundColor: inCart ? Colors.grey : Colors.brown,
                         foregroundColor: Colors.white,
                       ),
@@ -147,31 +142,27 @@ class AppWidgets {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(coldCoffeeDetails.imagePath??'lib/images/latte.png',
-                                height: 80,
                                 fit: BoxFit.cover,
                               ),
                             ),
 
                             //---------------------image in container-----------------------------------------//
 
-                            Padding(
-                              padding:
-                              EdgeInsets.only(
-                                  right: 8.0, left: 12.0, top: 15.0),
-                              child: IconButton(
-                                icon:  Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
-                                onPressed: () {
-                                  if (isFav) {provider.removeFromFavourite(coldCoffeeDetails.coffeeName??'No Name');
-                                  } else {
-                                    provider.addToFavourite(coldCoffeeDetails.coffeeName??'No Name', coldCoffeeDetails.imagePath??'lib/images/latte.png');
-                                    // switch to FAV tab
-                                  }
-                                },
+                            IconButton(
+                              icon:  Icon(isFav ? Icons.favorite : Icons.favorite_border,color: isFav ? Colors.red : Colors.grey,),
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.white.withOpacity(0.8),
+                                shadowColor: Colors.brown.withOpacity(0.3),
+                                elevation: 3,
+                                shape: CircleBorder(),
                               ),
-                              //Icons.favorite_border,
-                              //color: Colors.white,
-                              //size: 15,
-                              //),
+                              onPressed: () {
+                                if (isFav) {provider.removeFromFavourite(coldCoffeeDetails.coffeeName??'No Name');
+                                } else {
+                                  provider.addToFavourite(coldCoffeeDetails.coffeeName??'No Name', coldCoffeeDetails.imagePath??'lib/images/latte.png');
+                                  // switch to FAV tab
+                                }
+                              },
                             ),
 
                             //---------------------favourite button-----------------------------------------//
@@ -202,7 +193,7 @@ class AppWidgets {
 
                   //---------------------icon and text-----------------------------------------//
                   Padding(
-                      padding: const EdgeInsets.only(top: 10.0,left: 20),
+                      padding: const EdgeInsets.only(top: 10.0,left: 20,bottom: 10),
                       child:
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
