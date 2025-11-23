@@ -6,7 +6,7 @@ import 'view/get_started.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final getProvider = GetProvider();
+  //final getProvider = GetProvider();
  // await getProvider.loadCart();
   //await getProvider.loadFavourites();// Load saved cart
   runApp(ChangeNotifierProvider(create: (context)=>GetProvider(),

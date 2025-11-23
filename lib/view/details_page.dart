@@ -39,24 +39,24 @@ class _DetailsPageState extends State<DetailsPage> {
       displayList = getProvider.coldCoffeeList;
     }
 
-    return Scaffold(
-      body:
-      SafeArea(
-        child: Stack(children: [
+    return SafeArea(
+      child: Scaffold(
+        body:
+        Stack(children: [
           // Background color layers
-
+        
           Column(
             children: [
               Expanded(
                 child: Container(color: Colors.black), // Top half
               ),
-
+        
               //---------------------half color black-----------------------------------------//
-
+        
               Expanded(
                 child: Container(color: Colors.white), // Bottom half
               ),
-
+        
               //---------------------another half white-----------------------------------------//
             ],
           ),
@@ -73,9 +73,9 @@ class _DetailsPageState extends State<DetailsPage> {
                           fontSize: 20,
                           color: Colors.white),
                     ),
-
+        
                     //---------------------text-----------------------------------------//
-
+        
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
@@ -84,7 +84,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         height: 35,
                       ),
                     ),
-
+        
                     //---------------------image-----------------------------------------//
                   ],
                 ),
@@ -98,9 +98,9 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   ],
                 ),
-
+        
                 //---------------------text-----------------------------------------//
-
+        
                 Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: TextField(
@@ -121,9 +121,9 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   ),
                 ),
-
+        
                 //----------------------------search-----------------------------------------//
-
+        
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -139,9 +139,9 @@ class _DetailsPageState extends State<DetailsPage> {
                               colorFilter: ColorFilter.mode(
                                   Colors.white24, BlendMode.lighten)))),
                 ),
-
+        
                 //---------------------image-----------------------------------------//
-
+        
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Row(
@@ -210,7 +210,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ],
                   ),
                 ),
-
+        
                 //==================== three button ====================//
                 Expanded(
                   child: GridView.builder(
@@ -237,19 +237,20 @@ class _DetailsPageState extends State<DetailsPage> {
                 )
                 //==================== COFFEE GRID ====================//
               ])
-    )
-    ]))
-
-
-
-
-
-
-
-
-
-
-
+            )
+            ])
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      ),
     );
   }
 

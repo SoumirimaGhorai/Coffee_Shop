@@ -10,41 +10,43 @@ class HotCoffeePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final getProvider = Provider.of<GetProvider>(context);
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: GridView.builder(
-          itemCount:getProvider.hotCoffeeList.length,
-          //hotCoffees.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(
-          ),
-          gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-          mainAxisSpacing: 7,
-          crossAxisSpacing: 7,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            // final coffee = hotCoffees[index];
-        return
-            InkWell(
-                onTap: () {
-                getProvider.goToHotCoffeeDetails(
-                    context,
-                    getProvider.hotCoffeeList[index].imagePath??'',
-                    getProvider.hotCoffeeList[index].coffeeName??'');
-                },
-                child: AppWidgets.allHotCoffee(
-                  context,getProvider.hotCoffeeList[index])
-            );
-          }),
+    return SafeArea(
+      child: Scaffold(
+          body: SingleChildScrollView(
+        child: GridView.builder(
+            itemCount:getProvider.hotCoffeeList.length,
+            //hotCoffees.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(
+            ),
+            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            mainAxisSpacing: 7,
+            crossAxisSpacing: 7,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              // final coffee = hotCoffees[index];
+          return
+              InkWell(
+                  onTap: () {
+                  getProvider.goToHotCoffeeDetails(
+                      context,
+                      getProvider.hotCoffeeList[index].imagePath??'',
+                      getProvider.hotCoffeeList[index].coffeeName??'');
+                  },
+                  child: AppWidgets.allHotCoffee(
+                    context,getProvider.hotCoffeeList[index])
+              );
+            }),
 
-            //---------------------first coffee-----------------------------------------//
-
-
-            )
+              //---------------------first coffee-----------------------------------------//
 
 
+              )
 
+
+
+      ),
     );
   }
 }

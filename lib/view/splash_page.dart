@@ -38,25 +38,27 @@ class SplashPage extends StatelessWidget {
         .checkLoginAndNavigate(context),
 
     );
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Colors.yellow,Colors.lightGreenAccent])
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [Colors.yellow,Colors.lightGreenAccent])
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage('lib/images/splash.png'),minRadius: 40,maxRadius: 70,),
+              SizedBox(height: 20,),
+              Text('Welcome to Coffee Shop',style:TextStyle(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 17,fontWeight: FontWeight.w700),)
+            ],
+          ),
+        )
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundImage: AssetImage('lib/images/splash.png'),minRadius: 40,maxRadius: 70,),
-            SizedBox(height: 20,),
-            Text('Welcome to Coffee Shop',style:TextStyle(color: Colors.black,fontStyle: FontStyle.italic,fontSize: 17,fontWeight: FontWeight.w700),)
-          ],
-        ),
-      )
-      );
+    );
   }
 }

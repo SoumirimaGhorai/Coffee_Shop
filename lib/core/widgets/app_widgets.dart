@@ -33,8 +33,17 @@ class AppWidgets {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(hotCoffeeDetails.imagePath??'lib/images/latte.png',
-                                fit: BoxFit.cover,
+                              child: GestureDetector(
+                                onTap: () {
+                                 provider.goToHotCoffeeDetails(
+                                    context,
+                                    hotCoffeeDetails.imagePath ?? '',
+                                    hotCoffeeDetails.coffeeName ?? 'No Name',
+                                  );
+                                },
+                                child: Image.asset(hotCoffeeDetails.imagePath??'lib/images/latte.png',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
 
@@ -58,37 +67,73 @@ class AppWidgets {
                    ),
 
 
-                  //---------------------icon-----------------------------------------//
+                  //---------------------favourite icon -----------------------------------------//
+
+                   Padding(
+                    padding: EdgeInsets.symmetric(horizontal:8, vertical: 2),
+                     child:  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(hotCoffeeDetails.coffeeName??'No Name', style: TextStyle(fontSize: 12)
+                          ),
+                            Text(hotCoffeeDetails.coffeePrice??'0',style:TextStyle(fontSize: 12) ,
+                            ),
+                        ],
+                      ),
+                 ),
+
+                  //---------------------name and price -----------------------------------------//
 
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Text(
-                              hotCoffeeDetails.coffeeName??'No Name',
-                              style: TextStyle(fontSize: 12),
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Icon(
-                          Icons.star,
-                          size: 16,
-                          color: Colors.yellow,
-                        ),
-                        Text(' 4.8')
+                   padding: const EdgeInsets.all(8.0),
+                   child: Row(
+                     children: [
+                       Container(
+                         padding: EdgeInsets.symmetric(horizontal: 8, vertical:3),
+                         decoration: BoxDecoration(
+                           color: Colors.green,          // Green background
+                           borderRadius: BorderRadius.circular(20),
+                         ),
+                         child: Row(
+                           children: [
+                             Text(
+                               (hotCoffeeDetails.coffeeRating ?? 4.5).toStringAsFixed(1),
+                               style: TextStyle(
+                                 color: Colors.white,
+                                 fontSize: 12,
+                                 fontWeight: FontWeight.bold,
+                               ),
+                             ),
+                             SizedBox(width: 3),
+                             Icon(
+                               Icons.star,
+                               size: 14,
+                               color: Colors.white,
+                             ),
+                           ],
+                         ),
+                       ),
 
-                        //---------------------icon and text-----------------------------------------//
-                      ],
-                    ),
-                  ),
+                       SizedBox(width: 5),
+                       Text(
+                         "(${hotCoffeeDetails.ratingCount ?? 0})",
+                         style: TextStyle(
+                           color: Colors.grey.shade700,
+                           fontSize: 12,
+                         ),
+                       ),
+                     ],
+                   )
+
+                 ),
+
+
+                  //---------------------icon and person rating -----------------------------------------//
+
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0,top: 4, bottom: 8),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          minimumSize: Size(5, 50),
+                          minimumSize: Size(5, 42),
                           backgroundColor: inCart ? Colors.grey : Colors.brown,
                         foregroundColor: Colors.white,
                       ),
@@ -107,15 +152,17 @@ class AppWidgets {
 
                   //---------------------elevated button----------------------------------------//
 
-                ],
-              ),
+                ]
+              )
+
+              );
 
 
-
+      }
         );
       }
-    );
-  }
+
+
   static Widget allColdCoffee(BuildContext context,ColdCoffeeDetails coldCoffeeDetails) {
     return Consumer<GetProvider>(
         builder: (context, provider, child) {
@@ -141,8 +188,11 @@ class AppWidgets {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(coldCoffeeDetails.imagePath??'lib/images/latte.png',
-                                fit: BoxFit.cover,
+                              child: GestureDetector(onTap: (){provider.goToHotCoffeeDetails(context,  coldCoffeeDetails.imagePath ?? '',
+                                coldCoffeeDetails.coffeeName ?? 'No Name',);},
+                                child: Image.asset(coldCoffeeDetails.imagePath??'lib/images/latte.png',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
 
@@ -167,55 +217,93 @@ class AppWidgets {
 
                             //---------------------favourite button-----------------------------------------//
                           ])),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 5, left: 10, right: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Text(
-                              coldCoffeeDetails.coffeeName??'No Name',
-                              style: TextStyle(fontSize: 12),
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Icon(
-                          Icons.star,
-                          size: 14,
-                          color: Colors.yellow,
-                        ),
-                        Text(' 4.8')
-                      ],
-                    ),
-                  ),
 
-                  //---------------------icon and text-----------------------------------------//
-                  Padding(
-                      padding: const EdgeInsets.only(top: 10.0,left: 20,bottom: 10),
-                      child:
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:inCart? Colors.grey:Colors.brown,
-                          minimumSize: Size(5, 40),
-                          foregroundColor: Colors.white,),
-                        onPressed: () {
-                          if (!inCart) {
-                            provider.addToCart(coldCoffeeDetails.coffeeName??'No Name', coldCoffeeDetails.imagePath??'');
-                            // switch to Cart tab
-                          }
-                        },
-                        child: Text(
-                          inCart ? 'Added ' : 'Add to Cart',
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        //---------------------elevated button-----------------------------------------//
-                      )
-                  )
-                ],
-              )
+
+
+          Padding(
+          padding: EdgeInsets.symmetric(horizontal:8, vertical: 2),
+          child:  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+          Text(coldCoffeeDetails.coffeeName??'No Name', style: TextStyle(fontSize: 12)
+          ),
+          Text(coldCoffeeDetails.coffeePrice??'0',style:TextStyle(fontSize: 12) ,
+          ),
+          ],
+          ),
+          ),
+
+          //---------------------name and price -----------------------------------------//
+
+          Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+          children: [
+          Container(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical:3),
+          decoration: BoxDecoration(
+          color: Colors.green,          // Green background
+          borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+          children: [
+          Text(
+          (coldCoffeeDetails.coffeeRating ?? 4.5).toStringAsFixed(1),
+          style: TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          ),
+          ),
+          SizedBox(width: 3),
+          Icon(
+          Icons.star,
+          size: 14,
+          color: Colors.white,
+          ),
+          ],
+          ),
+          ),
+
+          SizedBox(width: 5),
+          Text(
+          "(${coldCoffeeDetails.ratingCount ?? 0})",
+          style: TextStyle(
+          color: Colors.grey.shade700,
+          fontSize: 12,
+          ),
+          ),
+          ],
+          )
+
+          ),
+
+
+          //---------------------icon and person rating -----------------------------------------//
+
+          Padding(
+          padding: const EdgeInsets.only(left: 20.0,top: 4, bottom: 8),
+          child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+          minimumSize: Size(5, 42),
+          backgroundColor: inCart ? Colors.grey : Colors.brown,
+          foregroundColor: Colors.white,
+          ),
+          onPressed: () {
+          if (!inCart) {
+          provider.addToCart(coldCoffeeDetails.coffeeName??'No Name', coldCoffeeDetails.imagePath??'');
+          }
+          },
+          child: Text(
+          inCart ? 'Added ' : 'Add to Cart',
+          style: TextStyle(color: Colors.white),
+          ),
+          ),
+          )
+          ]
+          )
           );
+
+
         }
     );
   }
