@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../view_models/get_provider_app_controller.dart';
 
 class SignupPage extends StatelessWidget {
-  SignupPage({super.key});
+  const SignupPage({super.key});
 
 
   @override
@@ -136,7 +136,7 @@ class SignupPage extends StatelessWidget {
                               Text(
                                 "Remember Me",
                                 style: TextStyle(
-                                    color: Colors.white70, fontSize: 14),
+                                    color: Colors.white, fontSize: 14),
                               ),
                             ],
                           ),
@@ -158,6 +158,7 @@ class SignupPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
+                            minimumSize: Size(200, 50),
                             backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),

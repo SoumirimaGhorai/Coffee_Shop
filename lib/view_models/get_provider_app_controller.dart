@@ -327,49 +327,49 @@ class GetProvider extends ChangeNotifier {
   //==================== THEME MODE ====================//
 
   // Instead of three booleans, use one variable for size
-  String selectedSize = '';
-
-  void selectSize(String size) {
-    selectedSize = size;
-    notifyListeners();
-  }
-
-//==================== COFFEE'S SIZE SELECTION ====================//
-
-  int price = 0;
-  int totalPayment = 0;
-
-  void basePrice(int price) {
-    totalPayment = price * _count;
-    notifyListeners();
-  }
-
-  String? selectedMilk; // only one can be selectedString? selectedMilk;  // only one can be selected
-  void selectMilk(String? milk) {
-    selectedMilk = milk;
-    if (milk == 'oat') price = 200;
-    if (milk == 'fat') price = 275;
-    if (milk == 'cream') price = 300;
-    notifyListeners();
-  }
-
-  int _count = 1;
-
-  int get count => _count;
-
-  void increment() {
-    _count++;
-    totalPayment = price * _count;
-    notifyListeners();
-  }
-
-  void decrement() {
-    if (_count > 1) {
-      _count--;
-      totalPayment = price * _count;
-      notifyListeners();
-    }
-  }
+//   String selectedSize = '';
+//
+//   void selectSize(String size) {
+//     selectedSize = size;
+//     notifyListeners();
+//   }
+//
+// //==================== COFFEE'S SIZE SELECTION ====================//
+//
+//   int price = 0;
+//   int totalPayment = 0;
+//
+//   void basePrice(int price) {
+//     totalPayment = price * _count;
+//     notifyListeners();
+//   }
+//
+//   String? selectedMilk; // only one can be selectedString? selectedMilk;  // only one can be selected
+//   void selectMilk(String? milk) {
+//     selectedMilk = milk;
+//     if (milk == 'oat') price = 200;
+//     if (milk == 'fat') price = 275;
+//     if (milk == 'cream') price = 300;
+//     notifyListeners();
+//   }
+//
+//   int _count = 1;
+//
+//   int get count => _count;
+//
+//   void increment() {
+//     _count++;
+//     totalPayment = price * _count;
+//     notifyListeners();
+//   }
+//
+//   void decrement() {
+//     if (_count > 1) {
+//       _count--;
+//       totalPayment = price * _count;
+//       notifyListeners();
+//     }
+//   }
 
   //====================COFFEE'S PRICE CALCULATION ====================//
 
@@ -704,6 +704,80 @@ class GetProvider extends ChangeNotifier {
     );
   }
 // -------------------- COFFEE DETAILS PAGE --------------------
+
+
+// ================== SIZE SELECTION ===================
+  String selectedSize = 'S';
+
+  void selectSize(String size) {
+    selectedSize = size;
+
+    // size price
+    if (size == 'S') sizePrice = 0;
+    if (size == 'M') sizePrice = 0;
+    if (size == 'L') sizePrice = 0;
+
+    // If milk already selected, recalc milk price based on size
+    if (selectedMilk != null) {
+      milkPrice = milkPrices[size]![selectedMilk]!;
+    }
+
+    notifyListeners();
+  }
+
+// Size price
+  int sizePrice = 0;
+
+
+// ================== MILK SELECTION ===================
+
+// Milk selected
+  String? selectedMilk;
+
+// Milk prices based on size
+  Map<String, Map<String, int>> milkPrices = {
+    'S': {'oat': 200, 'fat': 275, 'cream': 300},
+    'M': {'oat': 250, 'fat': 325, 'cream': 350},
+    'L': {'oat': 300, 'fat': 375, 'cream': 400},
+  };
+
+// milk price
+  int milkPrice = 0;
+
+  void selectMilk(String? milk) {
+    selectedMilk = milk;
+
+    if (selectedSize.isNotEmpty && milk != null) {
+      milkPrice = milkPrices[selectedSize]![milk]!;
+    }
+
+    notifyListeners();
+  }
+
+
+// ================== QUANTITY ===================
+
+  int _count = 1;
+  int get count => _count;
+
+  void increment() {
+    _count++;
+    notifyListeners();
+  }
+
+  void decrement() {
+    if (_count > 1) {
+      _count--;
+      notifyListeners();
+    }
+  }
+
+
+// ================== TOTAL PAYMENT ===================
+
+  int get totalPayment {
+    return (sizePrice + milkPrice) * _count;
+  }
 
 
 }

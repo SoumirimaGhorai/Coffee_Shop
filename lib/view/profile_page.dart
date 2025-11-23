@@ -83,19 +83,24 @@ class ProfilePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),
 
-              const Spacer(),
+              Spacer(),
 
-              // Logout button
+              //Logout button
               TextButton.icon(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder:(context)=>LoginPage()));
+                  showLogoutDialog(context);
+
+
                 },
-                icon: const Icon(Icons.logout, color: Colors.red),
-                label: const Text(
+                icon:  Icon(Icons.logout, color: Colors.red),
+                label:  Text(
                   "Logout",
                   style: TextStyle(color: Colors.red, fontSize: 16),
                 ),
               ),
+
+
+
             ],
           ),
         ),
@@ -111,4 +116,102 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
+
+
+void showLogoutDialog(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape:  RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+    ),
+    builder: (context) {
+      return Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon:  Icon(Icons.close, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+
+            const Text(
+              "Logout",
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            const Text(
+              "Are you sure you want to Logout?",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 25),
+
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding:  EdgeInsets.symmetric(vertical: 14),
+                      side: BorderSide(color: Colors.green),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    child:Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 10),
+
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+
+                      /// Example logout navigation
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Yes, Logout",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 

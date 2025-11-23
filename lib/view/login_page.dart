@@ -7,7 +7,7 @@ import '../view_models/get_provider_app_controller.dart';
 import '../core/themes/app_colors.dart';
 
 class LoginPage extends StatelessWidget {
-   LoginPage({super.key});
+   const LoginPage({super.key});
   @override
   Widget build(BuildContext context) {
     final getProvider = Provider.of<GetProvider>(context);
@@ -118,7 +118,7 @@ bool rememberMe =false;
                                        Text(
                                         "Remember Me",
                                         style: TextStyle(
-                                            color: Colors.white70, fontSize: 14),
+                                            color:Colors.white, fontSize: 14),
                                       ),
                                     ],
                                   ),
@@ -142,6 +142,7 @@ bool rememberMe =false;
                                     getProvider.logNav(context);
                                   },
                                   style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(200, 50),
                                     backgroundColor: Colors.white,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),

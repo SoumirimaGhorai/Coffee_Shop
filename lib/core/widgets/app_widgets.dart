@@ -73,9 +73,14 @@ class AppWidgets {
                     padding: EdgeInsets.symmetric(horizontal:8, vertical: 2),
                      child:  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(hotCoffeeDetails.coffeeName??'No Name', style: TextStyle(fontSize: 12)
+                          Expanded(
+                            child: Text(hotCoffeeDetails.coffeeName??'No Name', style: TextStyle(fontSize: 12),overflow:  TextOverflow.ellipsis,
+                              // maxLines: 2,
+                            ),
                           ),
-                            Text(hotCoffeeDetails.coffeePrice??'0',style:TextStyle(fontSize: 12) ,
+                            Flexible(
+                              child: Text(hotCoffeeDetails.coffeePrice??'0',style:TextStyle(fontSize: 12) ,
+                              ),
                             ),
                         ],
                       ),
@@ -224,9 +229,14 @@ class AppWidgets {
           padding: EdgeInsets.symmetric(horizontal:8, vertical: 2),
           child:  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          Text(coldCoffeeDetails.coffeeName??'No Name', style: TextStyle(fontSize: 12)
+          Expanded(
+            child: Text(coldCoffeeDetails.coffeeName??'No Name', style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
-          Text(coldCoffeeDetails.coffeePrice??'0',style:TextStyle(fontSize: 12) ,
+          Flexible(
+            child: Text(coldCoffeeDetails.coffeePrice??'0',style:TextStyle(fontSize: 12) ,
+            ),
           ),
           ],
           ),
